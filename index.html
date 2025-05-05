@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Team Travel Tracker</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+  body {
+    background: linear-gradient(to bottom right, #e0f7fa, #ffffff);
+    background-attachment: fixed;
+    padding: 2rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  h2.page-title {
+    font-size: 2.2rem;
+    font-weight: bold;
+    color: #00796b;
+    margin-bottom: 2rem;
+    text-align: center;
+    position: relative;
+  }
+
+  h2.page-title::before {
+    content: "✈️";
+    font-size: 2rem;
+    position: absolute;
+    left: -2rem;
+  }
+
+  .card {
+    margin-bottom: 1.5rem;
+    border: none;
+    border-radius: 15px;
+  }
+
+  .form-wrapper, .table-wrapper {
+    background-color: #ffffff;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+
+  table {
+    font-size: 0.9rem;
+  }
+
+  th {
+    background-color: #00796b;
+    color: white;
+    position: sticky;
+    top: 0;
+  }
+
+  .btn-primary, .btn-success, .btn-warning, .btn-danger {
+    border-radius: 20px;
+  }
+
+  input.form-control {
+    border-radius: 10px;
+  }
+
+  .card {
+    margin-bottom: 1.5rem;
+  }
+
+  .form-wrapper, .table-wrapper {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  }
+
+  .table-wrapper {
+    overflow-x: auto;
+  }
+
+  .table {
+    font-size: 0.875rem;
+    white-space: nowrap;
+  }
+
+  .table thead {
+    background-color: #343a40;
+    color: white;
+  }
+
+  .table th, .table td {
+    vertical-align: middle;
+    padding: 0.6rem;
+  }
+
+  .table tbody tr:hover {
+    background-color: #f1f3f5;
+  }
+
+  .btn-sm {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+  }
+</style>
+
+</head>
+<body>
+  <div class="container">
+    <h2 class="page-title">✈️ Team Travel Management Dashboard</h2>
+
+    <!-- Dashboard Summary -->
+    <div class="row text-white">
+      <div class="col-md-3">
+        <div class="card bg-primary">
+          <div class="card-body">
+            <h5>Total Travelers</h5>
+            <h2 id="totalTravelers">0</h2>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card bg-success">
+          <div class="card-body">
+            <h5>Inbound Today</h5>
+            <h2 id="inboundToday">0</h2>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card bg-warning">
+          <div class="card-body">
+            <h5>Outbound Today</h5>
+            <h2 id="outboundToday">0</h2>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card bg-danger">
+          <div class="card-body">
+            <h5>Visa Expiring Soon</h5>
+            <h2 id="visaExpiring">0</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add Traveler Form -->
+    <div class="form-wrapper mb-4">
+      <h4>Add Traveler</h4>
+      <form id="travelerForm" class="row g-3">
+        <div class="col-md-4"><input class="form-control" name="firstName" placeholder="First Name"></div>
+        <div class="col-md-4"><input class="form-control" name="middleName" placeholder="Middle Name(s)"></div>
+        <div class="col-md-4"><input class="form-control" name="lastName" placeholder="Last Name"></div>
+        <div class="col-md-6"><input class="form-control" name="designation" placeholder="Designation"></div>
+        <div class="col-md-6"><input class="form-control" name="organization" placeholder="Organization"></div>
+        <div class="col-md-6"><input class="form-control" name="residence" placeholder="Residence"></div>
+        <div class="col-md-6"><input class="form-control" name="homeAirport" placeholder="Home Airport"></div>
+        <div class="col-md-6"><input class="form-control" name="confirmed" placeholder="Confirmed"></div>
+        <div class="col-md-6"><input class="form-control" name="phone1" placeholder="Phone 1"></div>
+        <div class="col-md-6"><input class="form-control" name="phone2" placeholder="Phone 2"></div>
+        <div class="col-md-6"><input class="form-control" name="email" placeholder="Email"></div>
+        <div class="col-md-6"><input class="form-control" name="passport" placeholder="Passport #"></div>
+        <div class="col-md-4"><input type="date" class="form-control" name="doi" placeholder="DOI"></div>
+        <div class="col-md-4"><input type="date" class="form-control" name="doe" placeholder="DOE"></div>
+        <div class="col-md-4"><input type="date" class="form-control" name="dob" placeholder="DOB"></div>
+        <div class="col-md-6"><input class="form-control" name="startLocation" placeholder="Start Location"></div>
+        <div class="col-md-6"><input class="form-control" name="finalDestination" placeholder="Final Destination"></div>
+        <div class="col-md-6"><input class="form-control" name="visaStatus" placeholder="Visa Status"></div>
+        <div class="col-md-6"><input type="date" class="form-control" name="arrivalDate" placeholder="Arrival Date"></div>
+        <div class="col-md-6"><input type="date" class="form-control" name="departureDate" placeholder="Departure Date"></div>
+        <div class="col-md-6"><input class="form-control" name="flightStatus" placeholder="Flight Status"></div>
+        <div class="col-md-12"><input class="form-control" name="reminderNote" placeholder="Reminder Notes"></div>
+        <div class="col-12"><button class="btn btn-primary" type="submit">Add Traveler</button></div>
+      </form>
+    </div>
+<div class="mb-2 text-end">
+  <button class="btn btn-success" onclick="exportToExcel()">Export to Excel</button>
+</div>
+
+  <!-- Travelers Table -->
+<div class="table-wrapper mt-4">
+  <h4 class="mb-3">Traveler List</h4>
+  <div style="min-width: 1200px;">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Name</th><th>Designation</th><th>Org.</th><th>Residence</th><th>Home Airport</th><th>Confirmed</th><th>Phone</th><th>Email</th><th>Passport</th><th>DOI</th><th>DOE</th><th>DOB</th><th>Start → End</th><th>Visa Status</th><th>Arrival</th><th>Departure</th><th>Flight</th><th>Note</th><th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="travelerTable"></tbody>
+    </table>
+  </div>
+</div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+  apiKey: "AIzaSyArKUB2jgQcUUbOmFpajAzd0HSxoMv7Wu8",
+  authDomain: "teamtraveltracker.firebaseapp.com",
+  projectId: "teamtraveltracker",
+  storageBucket: "teamtraveltracker.firebasestorage.app",
+  messagingSenderId: "424808577842",
+  appId: "1:424808577842:web:951140beb570e3bab5f52b"
+};
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    const formatDate = (timestamp) => {
+      if (!timestamp || !timestamp.toDate) return '';
+      const date = timestamp.toDate();
+      return date.toISOString().split('T')[0];
+    };
+
+    function loadTravelers() {
+      db.collection("travelers").get().then((querySnapshot) => {
+        let total = 0, inbound = 0, outbound = 0, visaExp = 0;
+        let tableContent = "";
+        const today = new Date().toISOString().split("T")[0];
+
+        querySnapshot.forEach(doc => {
+          const d = doc.data();
+          total++;
+          if (d.arrivalDate && formatDate(d.arrivalDate) === today) inbound++;
+          if (d.departureDate && formatDate(d.departureDate) === today) outbound++;
+          if (d.visaStatus && d.visaStatus.toLowerCase() === "expiring") visaExp++;
+
+          tableContent += `
+            <tr>
+              <td>${d.firstName} ${d.middleName || ""} ${d.lastName}</td>
+              <td>${d.designation}</td>
+              <td>${d.organization}</td>
+              <td>${d.residence}</td>
+              <td>${d.homeAirport}</td>
+              <td>${d.confirmed}</td>
+              <td>${d.phone1}</td>
+              <td>${d.email}</td>
+              <td>${d.passport}</td>
+              <td>${formatDate(d.doi)}</td>
+              <td>${formatDate(d.doe)}</td>
+              <td>${formatDate(d.dob)}</td>
+              <td>${d.startLocation} → ${d.finalDestination}</td>
+              <td>${d.visaStatus}</td>
+              <td>${formatDate(d.arrivalDate)}</td>
+              <td>${formatDate(d.departureDate)}</td>
+              <td>${d.flightStatus || ""}</td>
+              <td>${d.reminderNote || ""}</td>
+              <td>
+                <button class="btn btn-sm btn-warning" onclick="editTraveler('${doc.id}')">Edit</button>
+                <button class="btn btn-sm btn-danger" onclick="deleteTraveler('${doc.id}')">Delete</button>
+              </td>
+            </tr>
+          `;
+        });
+
+        document.getElementById("travelerTable").innerHTML = tableContent;
+        document.getElementById("totalTravelers").innerText = total;
+        document.getElementById("inboundToday").innerText = inbound;
+        document.getElementById("outboundToday").innerText = outbound;
+        document.getElementById("visaExpiring").innerText = visaExp;
+      });
+    }
+
+    function deleteTraveler(id) {
+      if (confirm("Are you sure you want to delete this traveler?")) {
+        db.collection("travelers").doc(id).delete().then(() => {
+          alert("Traveler deleted.");
+          loadTravelers();
+        });
+      }
+    }
+
+    function editTraveler(id) {
+      alert("Edit functionality not implemented yet for ID: " + id);
+    }
+
+    document.getElementById("travelerForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(this).entries());
+      if (data.doi) data.doi = new Date(data.doi);
+      if (data.doe) data.doe = new Date(data.doe);
+      if (data.dob) data.dob = new Date(data.dob);
+      if (data.arrivalDate) data.arrivalDate = new Date(data.arrivalDate);
+      if (data.departureDate) data.departureDate = new Date(data.departureDate);
+      db.collection("travelers").add(data).then(() => {
+        alert("Traveler added successfully!");
+        this.reset();
+        loadTravelers();
+      });
+    });
+    function exportToExcel() {
+  const table = document.querySelector("table");
+  const wb = XLSX.utils.table_to_book(table, {sheet: "Travelers"});
+  XLSX.writeFile(wb, "TeamTravelers.xlsx");
+}
+
+
+    window.onload = loadTravelers;
+  </script>
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
+</body>
+</html>
